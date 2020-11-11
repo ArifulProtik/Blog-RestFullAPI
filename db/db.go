@@ -24,7 +24,7 @@ type manager struct {
 var Dbprovider Manager
 
 func init() {
-	dsn := "user=postgres password=112233 dbname=potforum port=5432 sslmode=disable"
+	dsn := "user=mrwizard password=112233 dbname=social port=5432 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Failed to init db:", err)
