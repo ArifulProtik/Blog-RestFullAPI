@@ -9,13 +9,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// Manager Defines all Database Operation.
-type Manager interface {
-	PingDB()
-	AddUser(*model.User) error       // Insert User Data on DB
-	AddProfile(*model.Profile) error // Insert profile on DB
-}
-
 type manager struct {
 	db *gorm.DB
 }
@@ -31,7 +24,7 @@ func init() {
 	} else {
 		log.Println("Database Connected")
 	}
-	db.Debug().AutoMigrate(model.User{}, model.Profile{})
+	db.Debug().AutoMigrate(model.User{}, model.Profile{}, model.TokenString{})
 	Dbprovider = &manager{db: db}
 
 }

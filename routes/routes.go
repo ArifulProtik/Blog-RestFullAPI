@@ -10,7 +10,7 @@ import (
 func InitializeRoute(r *mux.Router) {
 	r.HandleFunc("/", controller.Home).Methods("GET")
 	r.HandleFunc("/", controller.Home).Methods("OPTION")
-	r.HandleFunc("/signup", controller.Signup).Methods("POST")
-	r.HandleFunc("/signup", controller.Signup).Methods("OPTION")
+	r.HandleFunc("/signup", controller.JSONandCORS(controller.Signup)).Methods("POST")
+	r.HandleFunc("/signin", controller.JSONandCORS(controller.Signin)).Methods("POST")
 
 }
