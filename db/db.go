@@ -17,14 +17,14 @@ type manager struct {
 var Dbprovider Manager
 
 func init() {
-	dsn := "user=mrwizard password=112233 dbname=social port=5432 sslmode=disable"
+	dsn := "host=127.0.0.1 user=postgres password=112233 dbname=blog port=5432 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Failed to init db:", err)
 	} else {
 		log.Println("Database Connected")
 	}
-	db.Debug().AutoMigrate(model.User{}, model.Profile{}, model.TokenString{})
+	db.Debug().AutoMigrate(model.User{}, model.Profile{}, model.TokenString{}, model.Comment{}, model.Post{}, model.Like{})
 	Dbprovider = &manager{db: db}
 
 }

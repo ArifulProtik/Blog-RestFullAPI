@@ -41,7 +41,7 @@ func IsAuth(next http.HandlerFunc) http.HandlerFunc {
 			utils.ErrorWriter(w, "Unauthoroized", 403)
 			return
 		}
-		// TODO Check Time Expiration Date For Further Validation 
+		// TODO Check  Expiration of token For Further Validation 
 		next(w,r)
 	}
 }
