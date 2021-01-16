@@ -60,12 +60,12 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		utils.JSONWriter(w, data{
-			"Token":   tokenstring.Token,
+			"Token":   token,
 			"Profile": profile,
 		}, 200)
 	} else {
 		utils.JSONWriter(w, data{
-			"Token":   token,
+			"Token":   tokenstring.Token,
 			"Profile": profile,
 		}, 200)
 	}
