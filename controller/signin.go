@@ -6,6 +6,7 @@ import (
 	"forum-api/db"
 	"forum-api/utils"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -51,19 +52,20 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tokenstring, err := db.Dbprovider.GetTokenByID(user.UID)
-	if err != nil && err.Error() == "No token Found" {
+	log.Println(err)
+	if err != nil {
 		err = db.Dbprovider.SaveToken(user.UID, token)
 		if err != nil {
 			utils.ErrorWriter(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		utils.JSONWriter(w, data{
-			"Token":   token,
+			"Token":   tokenstring.Token,
 			"Profile": profile,
 		}, 200)
 	} else {
 		utils.JSONWriter(w, data{
-			"Token":   tokenstring.Token,
+			"Token":   token,
 			"Profile": profile,
 		}, 200)
 	}
