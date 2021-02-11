@@ -14,6 +14,9 @@ func InitializeRoute(r *mux.Router) {
 	r.HandleFunc("/signin", controller.JSONandCORS(controller.Signin)).Methods("POST", "OPTION")
 
 	r.HandleFunc("/posts", controller.JSONandCORS(controller.GetAllPost)).Methods("GET", "OPTION")
+	r.HandleFunc("/posts", controller.JSONandCORS(controller.GetAllPost)).Methods("GET", "OPTION")
+	r.HandleFunc("/fposts", controller.JSONandCORS(controller.FeaturedPosts)).Methods("GET", "OPTION")
+
 	r.HandleFunc("/post/{slug}", controller.JSONandCORS(controller.Singlepost)).Methods("GET", "OPTION")
 	r.HandleFunc("/comments/{slug}", controller.JSONandCORS(controller.GetComments)).Methods("GET", "OPTION")
 
