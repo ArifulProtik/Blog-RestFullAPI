@@ -11,6 +11,7 @@ type Post struct {
 	Slug         string    `gorm:"size:255, not null" json:"slug" groups:"list,single"`
 	Featureimage string    `gorm:"not null" json:"f_image" groups:"list,single"`
 	AuthorID     string    `gorm:"not null" json:"author_id" groups:"list,single"`
+	Featured     bool      `gorm:"default:false" json:"featured"`
 	CreatedAt    time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at" groups:"list,single"`
 	UpdatedAt    time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at" groups:"list,single"`
 }

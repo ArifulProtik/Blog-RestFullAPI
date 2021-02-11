@@ -30,6 +30,14 @@ func (c *manager) Allpost() ([]model.Post, error) {
 	}
 	return posts, nil
 }
+func (c *manager) Fposts() ([]model.Post, error) {
+	var posts []model.Post
+	getposts := c.db.Limit(6).Where("featured=?", true).Find(&posts)
+	if getposts.Error != nil {
+		return []model.Post{}, getposts.Error
+	}
+	return posts, nil
+}
 func (c *manager) GetComments(slug string) ([]model.Comment, error) {
 	var comments []model.Comment
 	getcomments := c.db.Limit(20).Find(&comments)

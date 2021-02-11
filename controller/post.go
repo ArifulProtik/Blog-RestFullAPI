@@ -26,7 +26,26 @@ func GetAllPost(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorWriter(w, "Internal Error", http.StatusInternalServerError)
 		return
 	}
-	utils.JSONWriter(w, marshalled, 20)
+	var marshalledposts []model.Post
+	err = json.Unmarshal(marshalled, &marshalledposts)
+	utils.JSONWriter(w, marshalledposts, 200)
+}
+
+// FeaturedPosts get all featured post
+func FeaturedPosts(w http.ResponseWriter, r *http.Request) {
+	posts, err := db.Dbprovider.Fposts()
+	if err != nil {
+		utils.ErrorWriter(w, "Internal Error", http.StatusInternalServerError)
+		return
+	}
+	marshalled, err := utils.Postmarshal([]string{"list"}, posts)
+	if err != nil {
+		utils.ErrorWriter(w, "Internal Error", http.StatusInternalServerError)
+		return
+	}
+	var marshalledposts []model.Post
+	err = json.Unmarshal(marshalled, &marshalledposts)
+	utils.JSONWriter(w, marshalledposts, 200)
 }
 
 // CreatePost creates a post for Authenticated User
@@ -48,7 +67,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 	userprofile, err := auth.GetProfile(r)
 	if err != nil {
-		utils.ErrorWriter(w, "Internal Error", http.StatusInternalServerError)
+		utils.ErrorWriter(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	// TODO: HTML Escape and GenSlug
@@ -65,7 +84,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 	newpost, err := db.Dbprovider.SavePost(&finalpost)
 	if err != nil {
-		utils.ErrorWriter(w, "Internal Error", http.StatusInternalServerError)
+		utils.ErrorWriter(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	utils.JSONWriter(w, newpost, 201)

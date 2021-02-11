@@ -3,7 +3,6 @@ package auth
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 
@@ -17,7 +16,7 @@ func CreateToken(UUID string) (string, error) {
 	claims := jwt.MapClaims{}
 	claims["authorized"] = true
 	claims["UUID"] = UUID
-	claims["exp"] = time.Now().Add(time.Hour * 12).Unix()
+	claims["exp"] = time.Now().Add(time.Hour * 1000).Unix()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(hello))
 
@@ -63,11 +62,11 @@ func ExtractTokenID(r *http.Request) (string, error) {
 	}
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if ok && token.Valid {
-		uid, err := strconv.ParseUint(fmt.Sprintf("%.0f", claims["UUID"]), 10, 32)
-		if err != nil {
+		authUuid, ok := claims["UUID"].(string) //convert the interface to string
+		if !ok {
 			return "", err
 		}
-		return string(uid), nil
+		return authUuid, nil
 	}
 	return "", nil
 }

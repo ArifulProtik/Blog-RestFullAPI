@@ -6,7 +6,6 @@ import (
 	"forum-api/db"
 	"forum-api/utils"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -48,11 +47,10 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 	}
 	token, err := auth.CreateToken(user.UID)
 	if err != nil {
-		utils.ErrorWriter(w, "Internal Error", http.StatusInternalServerError)
+		utils.ErrorWriter(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	tokenstring, err := db.Dbprovider.GetTokenByID(user.UID)
-	log.Println(err)
 	if err != nil {
 		err = db.Dbprovider.SaveToken(user.UID, token)
 		if err != nil {

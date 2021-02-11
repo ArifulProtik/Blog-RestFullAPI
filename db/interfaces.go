@@ -19,6 +19,7 @@ type Manager interface {
 	SavePost(*model.Post) (*model.Post, error)   // Creates a post
 	UpdatePost(*model.Post) (*model.Post, error) // Edits a post
 	Allpost() ([]model.Post, error)              // Getall post
+	Fposts() ([]model.Post, error)               // Featured Post only ^
 	Singlepost(string) (model.Post, error)       // Gets a Single post
 	Postbyuser(string) ([]model.Post, error)     // Get all post by single user
 	DeletePost(string) error                     // Delete single post
