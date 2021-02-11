@@ -2,6 +2,7 @@ package routes
 
 import (
 	"forum-api/controller"
+	"net/http"
 
 	"github.com/gorilla/mux"
 )
@@ -26,5 +27,9 @@ func InitializeRoute(r *mux.Router) {
 	r.HandleFunc("/post/{id}", controller.JSONandCORS(controller.IsAuth(controller.DeletePost))).Methods("DELETE", "OPTION")
 	r.HandleFunc("/createcomment", controller.JSONandCORS(controller.IsAuth(controller.SaveComment))).Methods("POST", "OPTION")
 	r.HandleFunc("/comment/{uid}", controller.JSONandCORS(controller.IsAuth(controller.DeleteComment))).Methods("DELETE", "OPTION")
+	r.HandleFunc("/upload", controller.JSONandCORS(controller.IsAuth(controller.Uploader))).Methods("POST", "OPTION")
+
+	// File Server
+	r.PathPrefix("/data/").Handler(http.StripPrefix("/data/", http.FileServer(http.Dir("cdn"))))
 
 }
